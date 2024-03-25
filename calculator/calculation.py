@@ -1,7 +1,7 @@
 """calculator/calculation.py
 Defines the Calculation class for handling individual arithmetic operations.
-This module provides the Calculation class, which offers a flexible way to encapsulate
-a single arithmetic operation, including operands and the operation itself, within an object.
+This module provides the Calculation class, which offers a flexible way to encapsulate a
+single arithmetic operation, including operands and the operation itself, within an object.
 This abstraction is designed to be used within a Calculator class for executing operations.
 """
 from decimal import Decimal
