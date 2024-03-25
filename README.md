@@ -12,6 +12,7 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 ```python
 # example of facade pattern
 ```
+<br>
 
 - __Command Pattern__
 
@@ -20,6 +21,7 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 ```python
 # example of command pattern
 ```
+<br>
 
 - __Factory Method__, __Singleton__, & __Strategy Patterns__
 
@@ -37,7 +39,6 @@ class Calculation:
         return cls(num1, num2, operation)
 ```
 > Employing the Factory Method Pattern in this way encapsulates object creation, enhancing the `Calculation` class's adaptability. It centralizes changes—such as more complex initialization or new calculation types—within the `create_calculation` method, minimizing impact on the broader application. This approach streamlines creation, boosting code maintainability and scalability by isolating creation logic.
-<br>
 <br>
 
 I use the [__Singleton Pattern__](https://github.com/NageshKanneganti/midterm/blob/main/calculator/calculations.py) to ensure that there is only one, globally accessible history of calculations within the application, managed through the CalculationHistory class.
@@ -67,6 +68,7 @@ class CalculationHistory:
         else:
             return None
 ```
+<br>
 
 [__Strategy Pattern__]()
 > Description
@@ -100,6 +102,7 @@ class CalculationHistory:
 ```python
 # if/else demonstrating LBYP
 ```
+<br>
 
 - __Easier to Ask for Forgivness than Permission ([*try/except*]())__:
 > Description
