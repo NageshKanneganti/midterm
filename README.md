@@ -37,6 +37,8 @@ class Calculation:
         return cls(num1, num2, operation)
 ```
 > Employing the Factory Method Pattern in this way encapsulates object creation, enhancing the `Calculation` class's adaptability. It centralizes changes—such as more complex initialization or new calculation types—within the `create_calculation` method, minimizing impact on the broader application. This approach streamlines creation, boosting code maintainability and scalability by isolating creation logic.
+<br>
+<br>
 
 I use the [__Singleton Pattern__](https://github.com/NageshKanneganti/midterm/blob/main/calculator/calculations.py) to ensure that there is only one, globally accessible history of calculations within the application, managed through the CalculationHistory class.
 > The `_history` attribute is a class-level attribute. This means it is shared across all instances of the CalculationHistory class. Any modification to _history through any instance (or directly via the class) will be reflected across the entire application, maintaining a single state of the calculation history.
