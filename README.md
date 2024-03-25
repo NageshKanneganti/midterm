@@ -6,6 +6,7 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 ## 1. Design Patterns
 
 - __Facade Pattern__
+
 [__Facade Pattern__]()
 > Description
 ```python
@@ -13,6 +14,7 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 ```
 
 - __Command Pattern__
+
 [__Command Pattern__]()
 > Description
 ```python
@@ -20,6 +22,7 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 ```
 
 - __Factory Method__, __Singleton__, & __Strategy Patterns__
+
 [__Factory Method__]()
 > Description
 ```python
