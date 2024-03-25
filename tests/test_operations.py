@@ -4,25 +4,25 @@ multiplication, and division), ensuring functionality across a range of Decimal 
 """
 from decimal import Decimal
 import pytest
-from calculator.operations import ArithmeticOperations as op
+from calculator.operations import ArithmeticOperations as ao
 
 class TestArithmeticOperations:
     """Test operations using parametrized test data"""
     @pytest.mark.parametrize("num1, num2, operation, expected", [
         # Addition tests
-        (Decimal('2'), Decimal('3'), op.addition, Decimal('5')),
-        (Decimal('0.1'), Decimal('0.2'), op.addition, Decimal('0.3')),
+        (Decimal('2'), Decimal('3'), ao.addition, Decimal('5')),
+        (Decimal('0.1'), Decimal('0.2'), ao.addition, Decimal('0.3')),
         # Subtraction tests
-        (Decimal('5'), Decimal('3'), op.subtraction, Decimal('2')),
-        (Decimal('0.3'), Decimal('0.1'), op.subtraction, Decimal('0.2')),
+        (Decimal('5'), Decimal('3'), ao.subtraction, Decimal('2')),
+        (Decimal('0.3'), Decimal('0.1'), ao.subtraction, Decimal('0.2')),
         # Multiplication tests
-        (Decimal('2'), Decimal('3'), op.multiplication, Decimal('6')),
-        (Decimal('0.1'), Decimal('0.2'), op.multiplication, Decimal('0.02')),
+        (Decimal('2'), Decimal('3'), ao.multiplication, Decimal('6')),
+        (Decimal('0.1'), Decimal('0.2'), ao.multiplication, Decimal('0.02')),
         # Division tests
-        (Decimal('6'), Decimal('3'), op.division, Decimal('2')),
-        (Decimal('0.3'), Decimal('0.1'), op.division, Decimal('3')),
+        (Decimal('6'), Decimal('3'), ao.division, Decimal('2')),
+        (Decimal('0.3'), Decimal('0.1'), ao.division, Decimal('3')),
         # Testing division by zero scenario
-        (Decimal('1'), Decimal('0'), op.division, "ZeroDivisionError"),
+        (Decimal('1'), Decimal('0'), ao.division, "ZeroDivisionError"),
     ])
     def test_operations(self, num1, num2, operation, expected):
         """Parameterized test for arithmetic operations with varied inputs and expected outputs."""
