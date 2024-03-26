@@ -6,6 +6,8 @@ command plugins, registering them for use, and handling user input to execute co
 import os
 import pkgutil
 import importlib
+import sys
+from dotenv import load_dotenv
 from app.commands import Command, CommandHandler
 
 class App:
@@ -15,7 +17,42 @@ class App:
     """
 
     def __init__(self):
+        load_dotenv()
+        self.settings = self.load_environment_variables()
         self.command_handler = CommandHandler()
+
+    def load_environment_variables(self):
+        """
+        Loads all environment variables into the application's settings.
+
+        This method utilizes the os.environ dictionary to fetch all available environment
+        variables and stores them in the `self.settings` dictionary. It's called during
+        the initialization phase of the application to ensure that all settings are loaded
+        and accessible throughout the application lifecycle.
+
+        Returns:
+            dict: A dictionary containing all environment variables as key-value pairs.
+        """
+        settings = {key: value for key, value in os.environ.items()}
+        return settings
+    
+    def get_environment_variable(self, env_var: str = 'ENVIRONMENT', default_value = None):
+        """
+        Retrieves the value of a specified environment variable from the application's settings.
+
+        If the environment variable is not found within the application's settings, this method
+        returns a default value if one is specified. This functionality is crucial for accessing
+        configuration values that may vary between development, testing, and production environments.
+
+        Args:
+            env_var (str): The name of the environment variable to retrieve. Defaults to 'ENVIRONMENT'.
+            default_value (Optional[Any]): The default value to return if the environment variable
+                                        is not found. Defaults to None.
+
+        Returns:
+            The value of the environment variable if it exists, otherwise the specified default value.
+        """
+        return self.settings.get(env_var, default_value)
 
     def load_plugins(self):
         """
@@ -69,23 +106,30 @@ class App:
         self.command_handler.register_command(dynamic_menu_command)
 
         print("Application started. Type 'show_menu' to see the menu or 'exit' to exit.\n")
-        while True:
-            cmd_input = input(">>> ")
-            if cmd_input.lower() == "exit":
-                print("Exiting...")
-                break
-            elif cmd_input == '':
-                # If the input is empty, show the dynamic menu of commands
-                self.command_handler.execute_command("show_menu") # Execute the show_menu command
-            else:
-                try:
-                    cmd_name, *args = cmd_input.split()
-                    self.command_handler.execute_command(cmd_name, *args)
-                except KeyError:
-                    print(f"Unknown command: {cmd_input}")
-                    self.command_handler.execute_command("show_menu") # Show menu if unknown command
-                except Exception as e:
-                    print(f"Error executing command: {e}")
+        try:
+            while True:
+                cmd_input = input(">>> ")
+                if cmd_input.lower() == "exit":
+                    print("Exiting...")
+                    break
+                elif cmd_input == '':
+                    # If the input is empty, show the dynamic menu of commands
+                    self.command_handler.execute_command("show_menu") # Execute the show_menu command
+                else:
+                    try:
+                        cmd_name, *args = cmd_input.split()
+                        self.command_handler.execute_command(cmd_name, *args)
+                    except KeyError:
+                        print(f"Unknown command: {cmd_input}")
+                        self.command_handler.execute_command("show_menu") # Show menu if unknown command
+                    except Exception as e:
+                        print(f"Error executing command: {e}")
+        except KeyboardInterrupt:
+            print("Application interrupted and exiting gracefully.")
+            sys.exit(0) # Assuming a KeyboardInterrupt should also result in a clean exit.
+        finally:
+            print("Application shutdown.")
+
 
 class DynamicMenuCommand(Command):
     """
