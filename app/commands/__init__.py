@@ -3,6 +3,7 @@ This module defines the core command pattern implementations including the base 
 and the CommandHandler for managing and executing commands. It enables the application to
 extend its functionality dynamically through commands, facilitating a plugin architecture.
 """
+import logging
 
 class Command:
     """
@@ -51,9 +52,9 @@ class CommandHandler:
             and a warning message will be printed.
         """
         if command.name in self.commands:
-            print(f"Command '{command.name}' is already registered. Overwriting.")
+            logging.warning(f"Command '{command.name}' is already registered. Overwriting.")
         self.commands[command.name] = command
-        print(f"Command '{command.name}' registered successfully.")
+        logging.info(f"Command '{command.name}' registered successfully.")
 
     def get_commands(self):
         """
@@ -78,9 +79,9 @@ class CommandHandler:
         """
         command = self.commands.get(name)
         if not command:
-            print(f"Command '{name}' not found.")
+            logging.error(f"Command '{name}' not found.")
             return
         try:
             command.execute(*args)
         except Exception as e:
-            print(f"Error executing command '{name}': {e}")
+            logging.error(f"Error executing command '{name}': {e}")

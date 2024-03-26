@@ -4,6 +4,7 @@ base class, inheriting its interface for integration into the application's comm
 """
 from app.commands import Command
 from app.plugins import execute_operation
+import logging
 
 class AddCommand(Command):
     """
@@ -20,5 +21,6 @@ class AddCommand(Command):
         Executes the addition operation. Prompts the user for two numbers to add together
         and displays the result.
         """
+        logging.info("Executing addition command")
         user_input_prompt = "Operation: Addition\n"
         execute_operation(user_input_prompt, self.name)

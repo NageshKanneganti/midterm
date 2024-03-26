@@ -6,6 +6,7 @@ such as addition, subtraction, multiplication, and division, by standardizing in
 and execution feedback.
 """
 from app.calculator.calc_utils import calculate_and_print
+import logging
 
 def execute_operation(user_input_prompt, operation_name):
     """
@@ -19,6 +20,7 @@ def execute_operation(user_input_prompt, operation_name):
     multiple operations to be performed in sequence. The loop can be exited by typing 'exit',
     providing a user-friendly way to return to the main menu.
     """
+    logging.info(f"Starting {operation_name} operation.")
     print(user_input_prompt)
     print("\tEnter your two numbers separated by space")
     print("\tType 'exit' at any time to return to the main menu.")
@@ -28,7 +30,7 @@ def execute_operation(user_input_prompt, operation_name):
         user_input = input(f"[{operation_name.capitalize()}]:   ")
 
         if user_input.lower() == 'exit':
-            print(f"Exiting {operation_name} operation.\n")
+            logging.info(f"Exiting {operation_name} operation.\n")
             break
 
         try:
@@ -36,6 +38,7 @@ def execute_operation(user_input_prompt, operation_name):
             calculate_and_print(num1_str, num2_str, operation_name)
             print(f"Continue to {operation_name} or type 'exit' to return to the main menu.\n")
         except Exception as e:
+            logging.warning(f"Invalid input in {operation_name} operation: {e}\n")
             print(f"Error: {e}\nPlease try again or type 'exit' to exit.\n")
 
 def parse_input(user_input):

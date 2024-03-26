@@ -4,6 +4,7 @@ base class, inheriting its interface for integration into the application's comm
 """
 from app.commands import Command
 from app.plugins import execute_operation
+import logging
 
 class DivideCommand(Command):
     """
@@ -19,5 +20,6 @@ class DivideCommand(Command):
         """
         Executes the division operation. Prompts the user for two numbers to divide and displays the result.
         """
+        logging.info("Executing division command")
         user_input_prompt = "Operation: Division\n"
         execute_operation(user_input_prompt, self.name)
