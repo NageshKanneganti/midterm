@@ -5,6 +5,7 @@ messages based on various operation scenarios.
 """
 from decimal import Decimal
 from unittest.mock import patch
+import logging
 import pytest
 from app.calculator import Calculator
 from app.calculator.calc_utils import calculate_and_print, perform_operation
@@ -53,3 +54,15 @@ def test_perform_operation_unexpected_exception():
         # Expected result format, adjust as necessary to match your error handling output
         expected_result = f"An unexpected error occurred: {exception_message}"
         assert result_message == expected_result, "The function did not handle an unexpected exception as expected."
+
+def test_perform_operation_logs_error_on_value_error(caplog):
+    """Tests the perform_opeartion function's ability to handle ValueError gracefully."""
+    caplog.set_level(logging.ERROR)
+
+    # Mock the add method of Calculator to raise ValueError
+    with patch('app.calculator.Calculator.add', side_effect=ValueError("Mocked error")):
+        # Assuming 'add' is the operation that we're testing
+        perform_operation(Decimal("1"), Decimal("2"), "add")
+
+    # Assert that an error was logged
+    assert "Value error in operation" in caplog.text

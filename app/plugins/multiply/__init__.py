@@ -4,6 +4,7 @@ base class, inheriting its interface for integration into the application's comm
 """
 from app.commands import Command
 from app.plugins import execute_operation
+import logging
 
 class MultiplyCommand(Command):
     """
@@ -20,5 +21,6 @@ class MultiplyCommand(Command):
         Executes the multiplication operation. Prompts the user for two numbers to multiply together
         and displays the result.
         """
+        logging.info("Executing multiplication command")
         user_input_prompt = "Operation: Multiplication\n"
         execute_operation(user_input_prompt, self.name)

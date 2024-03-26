@@ -4,6 +4,7 @@ base class, inheriting its interface for integration into the application's comm
 """
 from app.commands import Command
 from app.plugins import execute_operation
+import logging
 
 class SubtractCommand(Command):
     """
@@ -19,5 +20,6 @@ class SubtractCommand(Command):
         """
         Executes the subtraction operation. Prompts the user for two numbers to subtract and displays the result.
         """
+        logging.info("Executing subtraction command")
         user_input_prompt = "Operation: Subtraction\n"
         execute_operation(user_input_prompt, self.name)

@@ -8,6 +8,7 @@ import pkgutil
 import importlib
 import sys
 from dotenv import load_dotenv
+import logging.config
 from app.commands import Command, CommandHandler
 
 class App:
@@ -17,9 +18,31 @@ class App:
     """
 
     def __init__(self):
+        os.makedirs('logs', exist_ok=True)
+        self.configure_logging()
         load_dotenv()
         self.settings = self.load_environment_variables()
         self.command_handler = CommandHandler()
+
+    def configure_logging(self):
+        """
+        Configures application logging based on an external configuration (logging.conf) file or 
+        fallback defaults.
+
+        This method attempts to configure logging settings by reading a 'logging.conf' file. If the
+        configuration file does not exist, it sets up a basic logging configuration with a default
+        logging level of INFO and a simple message format. This ensures that logging is available
+        for capturing runtime information and errors, enhancing the application's observability.
+
+        The method creates a log entry once logging is configured, signifying that the application
+        is ready to log further events.
+        """
+        logging_conf_path = 'logging.conf'
+        if os.path.exists(logging_conf_path):
+            logging.config.fileConfig(logging_conf_path, disable_existing_loggers=False)
+        else:
+            logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logging.info("Logging configured.")
 
     def load_environment_variables(self):
         """
@@ -34,6 +57,7 @@ class App:
             dict: A dictionary containing all environment variables as key-value pairs.
         """
         settings = {key: value for key, value in os.environ.items()}
+        logging.info("Environment variables loaded.")
         return settings
     
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT', default_value = None):
@@ -62,7 +86,7 @@ class App:
         plugins_package = 'app.plugins'
         plugins_path = plugins_package.replace('.', '/')
         if not os.path.exists(plugins_path):
-            print(f"Plugins directory '{plugins_path}' not found.")
+            logging.warning(f"Plugins directory '{plugins_path}' not found.")
             return
         for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_path]):
             if is_pkg:
@@ -70,7 +94,9 @@ class App:
                     plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
                     self.register_plugin_commands(plugin_module)
                 except ImportError as e:
-                    print(f"Error importing plugin {plugin_name}: {e}")
+                    logging.error(f"Error importing plugin {plugin_name}: {e}")
+                except Exception as e:
+                    logging.error(f"Error loading plugin {plugin_name}: {e}")
 
     def register_plugin_commands(self, plugin_module):
         """
@@ -90,7 +116,7 @@ class App:
             if isinstance(item, type) and issubclass(item, Command) and item is not Command:
                 command_instance = item()
                 self.command_handler.register_command(command_instance)
-                print(f"Command '{command_instance.name}' from plugin '{command_instance.name}' registered.")
+                logging.info(f"Command '{command_instance.name}' from plugin '{command_instance.name}' registered.")
 
     def start(self):
         """
@@ -105,12 +131,12 @@ class App:
         dynamic_menu_command = DynamicMenuCommand(self.command_handler)
         self.command_handler.register_command(dynamic_menu_command)
 
-        print("Application started. Type 'show_menu' to see the menu or 'exit' to exit.\n")
+        logging.info("Application started. Type 'show_menu' to see the menu or 'exit' to exit.\n")
         try:
             while True:
                 cmd_input = input(">>> ")
                 if cmd_input.lower() == "exit":
-                    print("Exiting...")
+                    logging.info("Application exit.")
                     break
                 elif cmd_input == '':
                     # If the input is empty, show the dynamic menu of commands
@@ -120,15 +146,15 @@ class App:
                         cmd_name, *args = cmd_input.split()
                         self.command_handler.execute_command(cmd_name, *args)
                     except KeyError:
-                        print(f"Unknown command: {cmd_input}")
+                        logging.error(f"Unknown command: {cmd_input}")
                         self.command_handler.execute_command("show_menu") # Show menu if unknown command
                     except Exception as e:
-                        print(f"Error executing command: {e}")
+                        logging.error(f"Error executing command: {e}")
         except KeyboardInterrupt:
-            print("Application interrupted and exiting gracefully.")
+            logging.info("Application interrupted and exiting gracefully.")
             sys.exit(0) # Assuming a KeyboardInterrupt should also result in a clean exit.
         finally:
-            print("Application shutdown.")
+            logging.info("Application shutdown.")
 
 
 class DynamicMenuCommand(Command):
@@ -158,3 +184,4 @@ class DynamicMenuCommand(Command):
         for name, description in commands:
             menu += f"\t{name}: {description}\n"
         print(menu)
+        logging.info("Displayed the dynamic menu of commands to the user.")
