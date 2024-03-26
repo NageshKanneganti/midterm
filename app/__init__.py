@@ -78,14 +78,14 @@ class App:
                 # If the input is empty, show the dynamic menu of commands
                 self.command_handler.execute_command("show_menu") # Execute the show_menu command
             else:
-                    try:
-                        cmd_name, *args = cmd_input.split()
-                        self.command_handler.execute_command(cmd_name, *args)
-                    except KeyError:
-                        print(f"Unknown command: {cmd_input}")
-                        self.command_handler.execute_command("show_menu") # Show menu if unknown command
-                    except Exception as e:
-                        print(f"Error executing command: {e}")
+                try:
+                    cmd_name, *args = cmd_input.split()
+                    self.command_handler.execute_command(cmd_name, *args)
+                except KeyError:
+                    print(f"Unknown command: {cmd_input}")
+                    self.command_handler.execute_command("show_menu") # Show menu if unknown command
+                except Exception as e:
+                    print(f"Error executing command: {e}")
 
 class DynamicMenuCommand(Command):
     """
