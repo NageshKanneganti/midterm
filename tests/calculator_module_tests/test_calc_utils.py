@@ -1,16 +1,13 @@
-"""tests/test_calc_main.py: Tests for the main module of the command-line calculator application.
-
-This test suite verifies the functionality of:
-- Symbol to operation name mapping within the calculator's main interface.
-- The calculate_and_print function, ensuring it accurately processes inputs and outputs the
-  correct results or error messages based on various operation scenarios.
+"""tests/test_calc_utils.py
+This test suite verifies the functionality of the calculate_and_print function,
+ensuring it accurately processes inputs and outputs the correct results or error
+messages based on various operation scenarios.
 """
-import sys
 from decimal import Decimal
 from unittest.mock import patch
 import pytest
 from app.calculator import Calculator
-from calc_main import calculate_and_print, perform_operation, main
+from app.calculator.calc_utils import calculate_and_print, perform_operation
 
 # Tests for calculate_and_print & OperationCommand
 @pytest.mark.parametrize("num1_str, num2_str, operation_str, expected_output", [
@@ -56,21 +53,3 @@ def test_perform_operation_unexpected_exception():
         # Expected result format, adjust as necessary to match your error handling output
         expected_result = f"An unexpected error occurred: {exception_message}"
         assert result_message == expected_result, "The function did not handle an unexpected exception as expected."
-
-# Testing main function
-def test_main_invalid_arguments(capsys):
-    """Test main function with invalid number of command-line arguments"""
-    with pytest.raises(SystemExit):
-        main()
-    captured = capsys.readouterr()
-    print(repr(captured.out.strip()))  # This will show hidden characters like \n
-    assert captured.out.strip() == "Usage: python main.py <number1> <number2> <operation>"
-
-def test_main_correct_arguments(capsys):
-    """Test providing the correct number of command-line arguments."""
-    test_input = ["calculator_main.py", "5", "3", "add"]
-    expected_output = "The result of 5 add 3 is equal to 8\n"
-    sys.argv = test_input
-    main()
-    captured = capsys.readouterr()
-    assert captured.out == expected_output

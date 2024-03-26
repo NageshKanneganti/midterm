@@ -1,8 +1,7 @@
-"""main.py: Main module for a command-line calculator.
+"""app/calculator/calc_utils.py:
 This module captures user input from the command line, performs arithmetic operations
 using the Calculator class, and handles invalid inputs and exceptions.
 """
-import sys
 from decimal import Decimal, InvalidOperation
 from app.calculator import Calculator
 
@@ -60,17 +59,3 @@ def calculate_and_print(num1_str, num2_str, operation_name):
     
     result_message = perform_operation(num1_decimal, num2_decimal, operation_name)
     print(result_message)
-
-def main():
-    """
-    Main entry point of the program. Parses command-line arguments and executes the operation.
-    """
-    if len(sys.argv) != 4:
-        print("Usage: python main.py <number1> <number2> <operation>")
-        sys.exit(1)
-
-    _, num1, num2, operation_name = sys.argv
-    calculate_and_print(num1, num2, operation_name)
-
-if __name__ == '__main__': # pragma: no cover
-    main()
