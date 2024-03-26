@@ -4,7 +4,7 @@ using the Calculator class, and handles invalid inputs and exceptions.
 """
 import sys
 from decimal import Decimal, InvalidOperation
-from calculator import Calculator
+from app.calculator import Calculator
 
 def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
     """

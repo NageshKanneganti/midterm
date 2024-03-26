@@ -4,7 +4,7 @@ multiplication, and division), ensuring functionality across a range of Decimal 
 """
 from decimal import Decimal
 import pytest
-from calculator.operations import ArithmeticOperations as AO
+from app.calculator.operations import ArithmeticOperations as AO
 
 def test_operations(num1, num2, operation, expected):
     """Parameterized test for arithmetic operations with varied inputs and expected outputs."""

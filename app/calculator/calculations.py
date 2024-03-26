@@ -6,7 +6,7 @@ and clear the history. The history is maintained as a class-level list, allowing
 access and modification across different parts of the application.
 """
 from typing import List, Optional
-from calculator.calculation import Calculation
+from app.calculator.calculation import Calculation
 
 class CalculationHistory:
     """Manages the history of calculations performed by the calculator.
