@@ -4,4 +4,4 @@ omit =
     */dist-packages/*
     */lib/python*
     */python*/*
-    */tests/conftest.py
+    */tests/calculator_module_tests/conftest.py

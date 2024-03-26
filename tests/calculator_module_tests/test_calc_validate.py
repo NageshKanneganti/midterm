@@ -1,4 +1,4 @@
-"""tests/test_main.py: Tests for the main module of the command-line calculator application.
+"""tests/test_calc_validate.py: Tests for the main module of the command-line calculator application.
 
 This test suite verifies the functionality of:
 - Symbol to operation name mapping within the calculator's main interface.
@@ -9,8 +9,8 @@ import sys
 from decimal import Decimal
 from unittest.mock import patch
 import pytest
-from calculator import Calculator
-from main import calculate_and_print, perform_operation, main
+from app.calculator import Calculator
+from calc_main import calculate_and_print, perform_operation, main
 
 # Tests for calculate_and_print & OperationCommand
 @pytest.mark.parametrize("num1_str, num2_str, operation_str, expected_output", [

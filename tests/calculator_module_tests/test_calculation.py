@@ -3,8 +3,8 @@ Test suite for the Calculation class in the calculator package.
 Ensures that calculations are correctly created, computed, and represented.
 """
 from decimal import Decimal
-from calculator.calculation import Calculation
-from calculator.operations import ArithmeticOperations as AO
+from app.calculator.calculation import Calculation
+from app.calculator.operations import ArithmeticOperations as AO
 
 def test_compute(num1, num2, operation, expected):
     """Verify that compute method returns correct result for basic arithmetic operations."""

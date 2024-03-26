@@ -8,9 +8,9 @@ CalculationHistory for maintaining a log of all calculations.
 """
 from decimal import Decimal
 from typing import Callable
-from calculator.calculation import Calculation
-from calculator.operations import ArithmeticOperations as ao
-from calculator.calculations import CalculationHistory as ch
+from app.calculator.calculation import Calculation
+from app.calculator.operations import ArithmeticOperations as ao
+from app.calculator.calculations import CalculationHistory as ch
 
 class Calculator:
     """

@@ -2,7 +2,7 @@
 
 from decimal import Decimal
 from faker import Faker
-from calculator.operations import ArithmeticOperations as AO
+from app.calculator.operations import ArithmeticOperations as AO
 
 fake = Faker()
 

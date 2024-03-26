@@ -4,8 +4,8 @@ to correctly perform arithmetic operations (addition, subtraction, multiplicatio
 and records each operation in the calculation history.
 """
 import pytest
-from calculator import Calculator
-from calculator.calculations import CalculationHistory as ch
+from app.calculator import Calculator
+from app.calculator.calculations import CalculationHistory as ch
 
 @pytest.fixture(autouse=True)
 def clear_history_before_tests():

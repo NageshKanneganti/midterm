@@ -5,9 +5,9 @@ adding calculations to the history, retrieving the history and the most recent
 calculation, and clearing the history.
 """
 from decimal import Decimal
-from calculator.calculation import Calculation
-from calculator.operations import ArithmeticOperations as ao
-from calculator.calculations import CalculationHistory as ch
+from app.calculator.calculation import Calculation
+from app.calculator.operations import ArithmeticOperations as ao
+from app.calculator.calculations import CalculationHistory as ch
 
 def setup_function(function):
     """Setup for tests clears the calculation history before each test function is run."""
