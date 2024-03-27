@@ -208,20 +208,110 @@ def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
 ---
 
 ## 2. Description of Environment Variables
-[__Environment Variables__]()
-> Description
+Loading Environment Variables at Application Startup
+> In [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L14-L25), environment variables are loaded from the `.env` file into the application's environment:
 ```python
-# environment variables
+from dotenv import load_dotenv
+...
+class App:
+    def __init__(self):
+        ...
+        load_dotenv()  # This line loads environment variables from the .env file
+        self.settings = self.load_environment_variables()
+        ...
+```
+Accessing Environment Variables to Configure Application Settings
+> After loading the environment variables, [`load_environment_variables()`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L47-L61) method in `app/__init__.py` is used to store them in a dictionary for easy access:
+```python
+import os
+...
+class App:
+    ...
+    def load_environment_variables(self):
+        settings = {key: value for key, value in os.environ.items()}  # Access environment variables
+        logging.info("Environment variables loaded.")
+        return settings
+```
+Utilizing Environment Variables for Dynamic Configuration
+> Environment variables are specifically utilized within [`calculator/calculations.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/calculator/calculations.py#L74-L87) for determining file paths and names related to calculation history management:
+```python
+import os
+from dotenv import load_dotenv
+...
+class CalculationHistory:
+    ...
+    @classmethod
+    def save_history_to_csv(cls):
+        ...
+        data_dir = os.getenv('DATA_DIR', './')  # Gets the DATA_DIR environment variable or defaults to './'
+        file_name = os.getenv('CALC_HISTORY_FILE', 'calculator_history.csv')  # Defaults to 'calculator_history.csv' if not set
+        file_path = os.path.join(data_dir, file_name)
+        ...
+```
+And similarly, for [loading calculation history from a CSV](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/calculator/calculations.py#L99-L103) file:
+```python
+    @classmethod
+    def load_history_from_csv(cls):
+        ...
+        data_dir = os.getenv('DATA_DIR', './')
+        file_name = os.getenv('CALC_HISTORY_FILE', 'calculator_history.csv')
+        file_path = os.path.join(data_dir, file_name)
+        ...
 ```
 
 ---
 
 ## 3. Utilizing Logging
-[__Logging__]()
-> Description
+
+I tried to integrate logging extensively to facilite both debugging and runtime monitoring.
+Configuration of logging
+> I used use a [`logging.conf`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/logging.conf#L1-L28) file to define loggers, handlers, formatters, and their configurations. This file is read at the start of my application to configure the logging system. This snippet from [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L27-L45) shows how I checked for the existence of `logging.conf` and use it to configure logging. If the file is not found, it falls back to a basic configuration.
 ```python
-# logging
+import logging.config
+...
+class App:
+    def configure_logging(self):
+        logging_conf_path = 'logging.conf'
+        if os.path.exists(logging_conf_path):
+            logging.config.fileConfig(logging_conf_path, disable_existing_loggers=False)
+        else:
+            logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        logging.info("Logging configured.")
 ```
+<br>
+
+Logging is used throughout the code to record everything from information about the application's state to warnings and errors. Here are specific examples demonstrating its effective use:
+> __Logging Application Events and States:__ In [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L121-L155), logging is used to mark significant application events, such as the start and termination of the application, as well as the loading of environment variables.
+```python
+logging.info("Environment variables loaded.")
+...
+logging.info("Application started. Type 'show_menu' to see the menu or 'exit' to exit.\n")
+...
+logging.info("Application shutdown.")
+```
+> __Logging in Plugin Operations:__ In the plugins directory, such as [`app/plugins/add/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/plugins/add/__init__.py#L24), logging is utilized to trace the execution of specific operations, aiding in debugging and providing runtime insights.
+```python
+import logging
+...
+class AddCommand(Command):
+    ...
+    def execute(self, *args):
+        logging.info("Executing addition command")
+        ...
+```
+> __Error Logging:__ I also log errors and exceptions, providing a trail that can be used to troubleshoot issues. For example, in [`app/plugins/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/plugins/__init__.py#L36-L42):
+```python
+except Exception as e:
+    logging.warning(f"Invalid input in {operation_name} operation: {e}\n")
+    ...
+```
+> __Critical Errors and Exceptions:__ In addition to regular logging, I also tried captures and log critical errors, ensuring that these high-severity issues are flagged for immediate attention. For example in [`app/calculator/calc_utlis.py`](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/calculator/calc_utils.py#L48-L50):
+```python
+except Exception as e:
+    logging.critical(f"Unexpected error in operation.\n", exc_info=True)
+    ...
+```
+In summary, I utilized the logging library to capture a wide range of information, from operational data and event tracing to error and critical condition reporting. 
 
 ---
 
