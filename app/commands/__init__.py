@@ -80,7 +80,7 @@ class CommandHandler:
         command = self.commands.get(name)
         if not command:
             logging.error(f"Command '{name}' not found.")
-            return
+            raise KeyError
         try:
             command.execute(*args)
         except Exception as e:

@@ -24,7 +24,7 @@ class MockCommand(Command):
 
     def execute(self, *args, **kwargs):
         """necessary for MockCommand"""
-        return f"Executed {self.name}"
+        return f"Executed {self.name}" # pragma: no cover
 
 @pytest.fixture
 def command_handler():
@@ -78,7 +78,8 @@ def test_execute_nonexistent_command(caplog, command_handler):
     Verify that attempting to execute a non-existent command logs an appropriate error.
     """
     with caplog.at_level(logging.ERROR):
-        command_handler.execute_command("nonexistent")
+        with pytest.raises(KeyError):  # Expecting KeyError to be raised
+            command_handler.execute_command("nonexistent")
     assert "not found" in caplog.text.lower()
 
 def test_execute_command_error(caplog, command_handler):
