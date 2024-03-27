@@ -7,11 +7,31 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 
 - __Facade Pattern__
 
-[__Facade Pattern__]()
-> Description
+I used the [__Facade Pattern__](https://github.com/NageshKanneganti/midterm/blob/40f9fd350acccb255748562b7d0e9f3692323a1d/app/__init__.py#L14-L155) to simplify the interaction with the application's complex subsystems, providing a unified interface for starting the application, loading plugins, and handling commands.
+> The `App` class serves as the facade, encapsulating the complexities of loading plugins and handling commands. Clients interact with the `App` facade without needing to understand the internal workings of these subsystems. By encapsulating the initialization process, loading of plugins, and registration of commands, the App facade shields clients from the implementation details of these subsystems. Clients only need to know how to interact with the App class, making the application more maintainable and easier to use.
 ```python
-# example of facade pattern
+class App:
+    def __init__(self):
+        # Encapsulate the initialization process
+        self.command_handler = CommandHandler()
+
+    def load_plugins(self):
+        # Encapsulate the process of loading plugins
+        # ...
+
+    def register_plugin_commands(self, plugin_module):
+        # Encapsulate the process of registering commands from plugins
+        # ...
+    
+    ...
 ```
+> The `App` facade provides a unified interface for starting the application and interacting with its features. Clients interact with the `App` class to start the application and execute commands, abstracting away the complexity of the underlying subsystems.
+```python
+if __name__ == "__main__":
+    # Initialize and start the application
+    App().start()
+```
+> In summary, the Facade Pattern in this context simplifies the usage of the application by providing a clear and unified interface while encapsulating the complexities of its subsystems.
 <br>
 
 - __Command Pattern__
@@ -149,11 +169,41 @@ class CalculationHistory:
 ```
 <br>
 
-[__Strategy Pattern__]()
-> Description
+I used the [__Strategy Pattern__](https://github.com/NageshKanneganti/midterm/blob/40f9fd350acccb255748562b7d0e9f3692323a1d/app/calculator/operations.py#L9-L77) to decouple the implementation of various arithmetic operations from the main application logic, allowing for flexibility and extensibility in handling different operations.
+> Each static method encapsulates a specific arithmetic operation, providing a common interface for performing calculations. This design allows the caller to choose and switch between different strategies (operations) dynamically.
 ```python
-# example of strategy
+class ArithmeticOperations:
+    @staticmethod
+    def addition(num1: Decimal, num2: Decimal) -> Decimal:
+        return num1 + num2
+
+    @staticmethod
+    def subtraction(num1: Decimal, num2: Decimal) -> Decimal:
+        return num1 - num2
+
+    @staticmethod
+    def multiplication(num1: Decimal, num2: Decimal) -> Decimal:
+        return num1 * num2
+
+    @staticmethod
+    def division(num1: Decimal, num2: Decimal) -> Decimal:
+        if num2 == 0:
+            raise ZeroDivisionError("Cannot divide by zero.")
+        else:
+            return num1 / num2
+
 ```
+> In my [calculator/calc_utils.py](https://github.com/NageshKanneganti/midterm/blob/40f9fd350acccb255748562b7d0e9f3692323a1d/app/calculator/calc_utils.py#L9-L36) module, I utilize these strategies by invoking the corresponding static methods from the `ArithmeticOperations` class based on user input. For example:
+```python
+def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
+    operation_callable = getattr(ArithmeticOperations, operation_name, None)
+    if operation_callable is None:
+        return f"Unknown operation: {operation_name}"
+    else:
+        result = operation_callable(num1, num2)
+        return f"The result of {num1} {operation_name} {num2} is equal to {result}"
+```
+> Here, the `perform_operation` function dynamically selects the appropriate strategy (operation) based on the operation_name provided by the user. This demonstrates the dynamic nature of the Strategy Pattern, where the choice of strategy can vary at runtime.
 
 ---
 
