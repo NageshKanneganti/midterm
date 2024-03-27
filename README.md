@@ -16,11 +16,90 @@ by *Nagesh Kanneganti* [__IS_601 Midterm__]
 
 - __Command Pattern__
 
-[__Command Pattern__]()
-> Description
+I use the [__Command Pattern__](https://github.com/NageshKanneganti/midterm/blob/main/app/commands/__init__.py) to enhance modularity and flexibility.
+> Each concrete command class, like `AddCommand`, `DivideCommand`, `MultiplyCommand`, and `SubtractCommand`, encapsulates a specific operation within its execute method. (Along with `HistoryCommand`) 
 ```python
-# example of command pattern
+class AddCommand(Command):
+    def __init__(self):
+        super().__init__()
+        self.name = "add"
+        self.description = "Add two numbers together."
+
+    def execute(self, *args):
+        logging.info("Executing addition command")
+        user_input_prompt = "Operation: Addition\n"
+        execute_operation(user_input_prompt, self.name)
+
+class DivideCommand(Command):
+    def __init__(self):
+        super().__init__()
+        self.name = "divide"
+        self.description = "Divide two numbers from one another."
+
+    def execute(self, *args):
+        logging.info("Executing division command")
+        user_input_prompt = "Operation: Division\n"
+        execute_operation(user_input_prompt, self.name)
+
+class MultiplyCommand(Command):
+    def __init__(self):
+        super().__init__()
+        self.name = "multiply"
+        self.description = "Multiply two numbers together."
+
+    def execute(self, *args):
+        logging.info("Executing multiplication command")
+        user_input_prompt = "Operation: Multiplication\n"
+        execute_operation(user_input_prompt, self.name)
+
+class SubtractCommand(Command):
+    def __init__(self):
+        super().__init__()
+        self.name = "subtract"
+        self.description = "Subtract two numbers from one another."
+
+    def execute(self, *args):
+        logging.info("Executing subtraction command")
+        user_input_prompt = "Operation: Subtraction\n"
+        execute_operation(user_input_prompt, self.name)
 ```
+> This encapsulation allows for uniform invocation of diverse operations through a common interface defined by the `Command` superclass. 
+```python
+class Command:
+    def __init__(self):
+        """Constructor for command class"""
+        self.name = ""  # Command name for menu display
+        self.description = ""  # Command description for menu display
+
+    def execute(self, *args, **kwargs):
+        raise NotImplementedError("Command execution not implemented.")
+```
+> The `CommandHandler` class serves as the invoker, maintaining a dictionary of registered commands and facilitating their dynamic execution based on user input or other triggers. 
+```python
+class CommandHandler:
+    def __init__(self):
+        self.commands = {} # A dictionary to store command instances keyed by their names.
+
+    def register_command(self, command):
+        if command.name in self.commands:
+            logging.warning(f"Command '{command.name}' is already registered. Overwriting.")
+        self.commands[command.name] = command
+        logging.info(f"Command '{command.name}' registered successfully.")
+
+    def get_commands(self):
+        return [(cmd.name, cmd.description) for cmd in self.commands.values()]
+
+    def execute_command(self, name, *args):
+        command = self.commands.get(name)
+        if not command:
+            logging.error(f"Command '{name}' not found.")
+            raise KeyError
+        try:
+            command.execute(*args)
+        except Exception as e:
+            logging.error(f"Error executing command '{name}': {e}")
+```
+> By interacting with commands solely through the Command interface, the `CommandHandler` remains decoupled from the specific implementations of individual commands. This decoupling promotes flexibility, as new commands can be added or existing ones modified without necessitating changes to the `CommandHandler` or other components of the system.
 <br>
 
 - __Factory Method__, __Singleton__, & __Strategy Patterns__
