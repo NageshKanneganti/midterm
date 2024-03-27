@@ -7,7 +7,7 @@ from app.plugins.add import AddCommand
 from app.plugins.subtract import SubtractCommand
 from app.plugins.divide import DivideCommand
 from app.plugins.multiply import MultiplyCommand
-from app.plugins import parse_input
+from app.plugins import execute_operation, parse_input
 
 class TestPluginCommands(unittest.TestCase):
     """Tests for plugins/__init__.py"""
@@ -50,6 +50,21 @@ class TestPluginCommands(unittest.TestCase):
         Test that the MultiplyCommand is correctly registered and executed.
         """
         self._test_command_registration_and_execution(MultiplyCommand, '2 2', "The result of 2 multiply 2 is equal to 4")
+
+    @patch('builtins.input', side_effect=['1 2 3', 'exit'])
+    @patch('builtins.print')
+    def test_execute_operation_with_invalid_input(self, mock_print, mock_input):
+        """
+        Test `execute_operation` with more than two operands to ensure it handles
+        the exception raised by `parse_input` and provides the correct user feedback.
+        """
+        execute_operation("Performing a test operation.", "test")
+
+        # Extract all print calls into a list of strings.
+        printed_messages = [call_args[0][0] for call_args in mock_print.call_args_list]
+
+        # Check if the error message is in any of the printed messages.
+        self.assertTrue(any("Invalid input format. Please use: <operand1> <operand2>" in message for message in printed_messages), "Expected error message not found in any print call.")
 
 # Parsing tests
 def test_parse_input_valid():
