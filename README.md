@@ -193,7 +193,7 @@ class ArithmeticOperations:
             return num1 / num2
 
 ```
-> In my [calculator/calc_utils.py](https://github.com/NageshKanneganti/midterm/blob/40f9fd350acccb255748562b7d0e9f3692323a1d/app/calculator/calc_utils.py#L9-L36) module, I utilize these strategies by invoking the corresponding static methods from the `ArithmeticOperations` class based on user input. For example:
+> In my [*calculator/calc_utils.py*](https://github.com/NageshKanneganti/midterm/blob/40f9fd350acccb255748562b7d0e9f3692323a1d/app/calculator/calc_utils.py#L9-L36) module, I utilize these strategies by invoking the corresponding static methods from the `ArithmeticOperations` class based on user input. For example:
 ```python
 def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
     operation_callable = getattr(ArithmeticOperations, operation_name, None)
@@ -209,7 +209,7 @@ def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
 
 ## 2. Description of Environment Variables
 Loading Environment Variables at Application Startup
-> In [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L14-L25), environment variables are loaded from the `.env` file into the application's environment:
+> In [*app/__init__.py*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L14-L25), environment variables are loaded from the `.env` file into the application's environment:
 ```python
 from dotenv import load_dotenv
 ...
@@ -221,7 +221,7 @@ class App:
         ...
 ```
 Accessing Environment Variables to Configure Application Settings
-> After loading the environment variables, [`load_environment_variables()`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L47-L61) method in `app/__init__.py` is used to store them in a dictionary for easy access:
+> After loading the environment variables, [`load_environment_variables()`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L47-L61) method in *app/__init__.py* is used to store them in a dictionary for easy access:
 ```python
 import os
 ...
@@ -233,7 +233,7 @@ class App:
         return settings
 ```
 Utilizing Environment Variables for Dynamic Configuration
-> Environment variables are specifically utilized within [`calculator/calculations.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/calculator/calculations.py#L74-L87) for determining file paths and names related to calculation history management:
+> Environment variables are specifically utilized within [*calculator/calculations.py*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/calculator/calculations.py#L74-L87) for determining file paths and names related to calculation history management:
 ```python
 import os
 from dotenv import load_dotenv
@@ -265,7 +265,7 @@ And similarly, for [loading calculation history from a CSV](https://github.com/N
 
 I tried to integrate logging extensively to facilite both debugging and runtime monitoring.
 Configuration of logging
-> I used use a [`logging.conf`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/logging.conf#L1-L28) file to define loggers, handlers, formatters, and their configurations. This file is read at the start of my application to configure the logging system. This snippet from [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L27-L45) shows how I checked for the existence of `logging.conf` and use it to configure logging. If the file is not found, it falls back to a basic configuration.
+> I used use a [*logging.conf*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/logging.conf#L1-L28) file to define loggers, handlers, formatters, and their configurations. This file is read at the start of my application to configure the logging system. This snippet from [*app/__init__.py*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L27-L45) shows how I checked for the existence of *logging.conf* and use it to configure logging. If the file is not found, it falls back to a basic configuration.
 ```python
 import logging.config
 ...
@@ -281,7 +281,7 @@ class App:
 <br>
 
 Logging is used throughout the code to record everything from information about the application's state to warnings and errors. Here are specific examples demonstrating its effective use:
-> __Logging Application Events and States:__ In [`app/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L121-L155), logging is used to mark significant application events, such as the start and termination of the application, as well as the loading of environment variables.
+> __Logging Application Events and States:__ In [*app/__init__.py*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/__init__.py#L121-L155), logging is used to mark significant application events, such as the start and termination of the application, as well as the loading of environment variables.
 ```python
 logging.info("Environment variables loaded.")
 ...
@@ -289,7 +289,7 @@ logging.info("Application started. Type 'show_menu' to see the menu or 'exit' to
 ...
 logging.info("Application shutdown.")
 ```
-> __Logging in Plugin Operations:__ In the plugins directory, such as [`app/plugins/add/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/plugins/add/__init__.py#L24), logging is utilized to trace the execution of specific operations, aiding in debugging and providing runtime insights.
+> __Logging in Plugin Operations:__ In the plugins directory, such as [*app/plugins/add/__init__.py*](https://github.com/NageshKanneganti/midterm/blob/69f78e9993bd7dfaf807602b93d211f7bac4b2e4/app/plugins/add/__init__.py#L24), logging is utilized to trace the execution of specific operations, aiding in debugging and providing runtime insights.
 ```python
 import logging
 ...
@@ -299,13 +299,13 @@ class AddCommand(Command):
         logging.info("Executing addition command")
         ...
 ```
-> __Error Logging:__ I also log errors and exceptions, providing a trail that can be used to troubleshoot issues. For example, in [`app/plugins/__init__.py`](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/plugins/__init__.py#L36-L42):
+> __Error Logging:__ I also log errors and exceptions, providing a trail that can be used to troubleshoot issues. For example, in [*app/plugins/__init__.py*](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/plugins/__init__.py#L36-L42):
 ```python
 except Exception as e:
     logging.warning(f"Invalid input in {operation_name} operation: {e}\n")
     ...
 ```
-> __Critical Errors and Exceptions:__ In addition to regular logging, I also tried captures and log critical errors, ensuring that these high-severity issues are flagged for immediate attention. For example in [`app/calculator/calc_utlis.py`](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/calculator/calc_utils.py#L48-L50):
+> __Critical Errors and Exceptions:__ In addition to regular logging, I also tried captures and log critical errors, ensuring that these high-severity issues are flagged for immediate attention. For example in [*app/calculator/calc_utlis.py*](https://github.com/NageshKanneganti/midterm/blob/02a080ee8b8321f2deeb5d536f4acb6fd1d67228/app/calculator/calc_utils.py#L48-L50):
 ```python
 except Exception as e:
     logging.critical(f"Unexpected error in operation.\n", exc_info=True)
@@ -316,18 +316,73 @@ In summary, I utilized the logging library to capture a wide range of informatio
 ---
 
 ## 4. LBYP vs EAFP
-- __Look Before You Leap ([*if/else*]())__:
-> Description
+- __Look Before You Leap ([*if/else*](https://github.com/NageshKanneganti/midterm/blob/ecf411e28df7c74bb5c8ae833ad844c3f2621f72/app/plugins/__init__.py#L44-L61))__:
+The __LBYL__ approach involves checking for conditions before performing an operation. This preventive method is about ensuring that operations are safe to perform by checking preconditions or constraints ahead of time.
+> In *app/plugins/__init__.py*, the parse_input function illustrates LBYL by checking the input format before proceeding with the operation:
 ```python
-# if/else demonstrating LBYP
+def parse_input(user_input):
+    parts = user_input.split()
+    if len(parts) != 2:  # Pre-check for the expected number of inputs
+        raise ValueError("Invalid input format. Please use: <operand1> <operand2>")
+    
+    return parts[0], parts[1]
 ```
+> Here, I explicitly check if the user input splits into exactly two parts, which is the expected format, before proceeding to return the operands. This is a clear example of LBYL, as I am ensuring the preconditions are met before moving forward with the operation.
 <br>
 
-- __Easier to Ask for Forgivness than Permission ([*try/except*]())__:
-> Description
+- __Easier to Ask for Forgivness than Permission ([*try/except*](https://github.com/NageshKanneganti/midterm/blob/ecf411e28df7c74bb5c8ae833ad844c3f2621f72/app/calculator/calc_utils.py#L52-L73))__:
+__EAFP__ is about trying to perform the operation directly and handling the fallout if it fails. This method is often preferred in environments where exceptions are cheap to catch or when the error condition is expected to be rare.
+> In *app/calculator/calc_utils.py*, the `calculate_and_print` function demonstrates the EAFP philosophy by attempting to perform operations and catching exceptions if they occur:
 ```python
-# try/except demonstrating EAFP
+def calculate_and_print(num1_str, num2_str, operation_name):
+    logging.info(f"Calculating {operation_name} for inputs '{num1_str}' and '{num2_str}'")
+    try:
+        num1_decimal = Decimal(num1_str)
+        num2_decimal = Decimal(num2_str)
+    except InvalidOperation:
+        logging.warning(f"Invalid number input: '{num1_str}' or '{num2_str}' is not a valid number.\n")
+        print(f"Invalid number input: {num1_str} or {num2_str} is not a valid number.")
+        return
+    
+    result_message = perform_operation(num1_decimal, num2_decimal, operation_name)
+    logging.info(f"Result of {operation_name}: {result_message}\n")
+    print(result_message)
 ```
+> This code attempts to convert the string inputs to Decimal, which might raise an __InvalidOperation__ exception if the strings cannot be converted. Instead of checking beforehand if the strings are valid representations of numbers, the code just tries to convert them and catches the exception if it fails. This is a textbook example of EAFP, where the operation is attempted directly with exceptions used to handle cases where the operation is not possible.
+
+> The [`perform_operation`](https://github.com/NageshKanneganti/midterm/blob/ecf411e28df7c74bb5c8ae833ad844c3f2621f72/app/calculator/calc_utils.py#L9-L50) function within *app/calculator/calc_utils.py* is another prime example of employing the "Easier to Ask for Forgiveness than Permission" (EAFP) coding style. This approach is particularly effective in Python due to the language's robust exception handling mechanisms and the philosophy that it's better to attempt an operation and catch exceptions if it fails rather than pre-checking for conditions that might lead to failure. Here's how EAFP is applied in perform_operation:
+```python
+def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
+    operation_mapping = {
+        'add': Calculator.add,
+        'subtract': Calculator.subtract,
+        'multiply': Calculator.multiply,
+        'divide': Calculator.divide,
+    }
+
+    logging.info(f"Attempting to perform operation: {operation_name} with operands {num1} and {num2}")
+
+    try:
+        operation_callable = operation_mapping.get(operation_name)
+        if operation_callable is None:
+            logging.error(f"Unknown operation: {operation_name}")
+            return f"Unknown operation: {operation_name}"
+
+        result = operation_callable(num1, num2)
+        logging.info(f"Operation {operation_name} completed successfully. Result: {result}")
+        return f"The result of {num1} {operation_name} {num2} is equal to {result}"
+    except ZeroDivisionError:
+        logging.warning(f"Division by zero attempt.")
+        return "An error occurred: Cannot divide by zero"
+    except ValueError as e:
+        logging.error(f"Value error in operation.\n")
+        return str(e)
+    except Exception as e:
+        logging.critical(f"Unexpected error in operation.\n", exc_info=True)
+        return f"An unexpected error occurred: {e}"
+```
+> __Attempt Direct Operation:__ The function tries to perform the requested operation directly without checking if the operation is valid or if the operation will succeed. This is seen where it maps `operation_name` to a callable and attempts to invoke it with the provided operands.
+> __Handling Exceptions as a Control Flow Mechanism:__ Instead of pre-validating the inputs or the operation's viability (for example, checking if num2 is zero before division), `perform_operation` proceeds with the operation and catches exceptions to handle various error scenarios: __ZeroDivisionError__, __ValueError__, and __General Exception__.
 
 ---
 
