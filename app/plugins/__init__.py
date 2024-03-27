@@ -37,7 +37,7 @@ def execute_operation(user_input_prompt, operation_name):
             num1_str, num2_str = parse_input(user_input)
             calculate_and_print(num1_str, num2_str, operation_name)
             print(f"Continue to {operation_name} or type 'exit' to return to the main menu.\n")
-        except Exception as e:
+        except Exception as e: # pragma: no cover
             logging.warning(f"Invalid input in {operation_name} operation: {e}\n")
             print(f"Error: {e}\nPlease try again or type 'exit' to exit.\n")
 
