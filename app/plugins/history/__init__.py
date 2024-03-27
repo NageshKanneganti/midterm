@@ -111,7 +111,7 @@ class HistoryCommand(Command):
         self._display_all_calculations()  # Show all calculations with indexes for user reference
         
         try:
-            index_to_delete = int(input("Enter the index of the calculation to delete: "))
+            index_to_delete = int(input("Enter the index of the calculation to delete: ")) - 1
             CalculationHistory.delete_calculation_by_index(index_to_delete)
             print(f"Calculation at index {index_to_delete + 1} has been deleted.")
         except ValueError:

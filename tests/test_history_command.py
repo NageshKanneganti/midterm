@@ -155,7 +155,7 @@ class TestHistoryCommandExecute(unittest.TestCase):
         """Test deleting a specific calculation by index."""
         with patch('builtins.input', side_effect=['6', '0', 'exit']), patch('sys.stdout', new=StringIO()):
             HistoryCommand().execute()
-        mock_delete_calculation.assert_called_once_with(0)
+        mock_delete_calculation.assert_called_once_with(-1)
 
     @patch('app.calculator.calculations.CalculationHistory.delete_calculation_by_index')
     @patch('builtins.print')
