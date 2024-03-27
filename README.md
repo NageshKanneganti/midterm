@@ -349,7 +349,9 @@ def calculate_and_print(num1_str, num2_str, operation_name):
     print(result_message)
 ```
 > This code attempts to convert the string inputs to Decimal, which might raise an __InvalidOperation__ exception if the strings cannot be converted. Instead of checking beforehand if the strings are valid representations of numbers, the code just tries to convert them and catches the exception if it fails. This is a textbook example of EAFP, where the operation is attempted directly with exceptions used to handle cases where the operation is not possible.
+<br>
 
+Another example:
 > The [`perform_operation`](https://github.com/NageshKanneganti/midterm/blob/ecf411e28df7c74bb5c8ae833ad844c3f2621f72/app/calculator/calc_utils.py#L9-L50) function within *app/calculator/calc_utils.py* is another prime example of employing the "Easier to Ask for Forgiveness than Permission" (EAFP) coding style. This approach is particularly effective in Python due to the language's robust exception handling mechanisms and the philosophy that it's better to attempt an operation and catch exceptions if it fails rather than pre-checking for conditions that might lead to failure. Here's how EAFP is applied in perform_operation:
 ```python
 def perform_operation(num1: Decimal, num2: Decimal, operation_name: str) -> str:
