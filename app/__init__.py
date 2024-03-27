@@ -137,7 +137,7 @@ class App:
                 cmd_input = input(">>> ")
                 if cmd_input.lower() == "exit":
                     logging.info("Application exit.")
-                    break
+                    sys.exit(0)
                 elif cmd_input == '':
                     # If the input is empty, show the dynamic menu of commands
                     self.command_handler.execute_command("show_menu") # Execute the show_menu command
@@ -148,14 +148,11 @@ class App:
                     except KeyError:
                         logging.error(f"Unknown command: {cmd_input}")
                         self.command_handler.execute_command("show_menu") # Show menu if unknown command
-                    except Exception as e:
-                        logging.error(f"Error executing command: {e}")
         except KeyboardInterrupt:
             logging.info("Application interrupted and exiting gracefully.")
             sys.exit(0) # Assuming a KeyboardInterrupt should also result in a clean exit.
         finally:
             logging.info("Application shutdown.")
-
 
 class DynamicMenuCommand(Command):
     """
